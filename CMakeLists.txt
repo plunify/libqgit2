@@ -29,6 +29,11 @@
 # Install:
 # > cmake --build . --target install
 
+# 2016-07-18
+# For build in Linux, uncomment these 2 lines below
+#set(CMAKE_PREFIX_PATH "/mnt/opt/qt5.1.1/qtbase")
+#set(CMAKE_BINARY_DIR "/mnt/plunifygit/qt/libqgit2/build")
+
 cmake_minimum_required(VERSION 2.8)
 project(libqgit2)
 
@@ -49,7 +54,10 @@ if (Qt5Core_FOUND)
   message(STATUS "Building with Qt5 support")
   find_package(Qt5Core REQUIRED Core Network)
   add_definitions(${Qt5Core_DEFINITIONS})
-  set(CMAKE_CXX_FLAGS "${Qt5Core_EXECUTABLE_COMPILE_FLAGS}")
+  # 2016-07-18
+  # Some how there is a bug here, we need to force it to use -fPIC
+  #set(CMAKE_CXX_FLAGS "${Qt5Core_EXECUTABLE_COMPILE_FLAGS}")
+  set(CMAKE_CXX_FLAGS "-fPIC")
   set(CMAKE_AUTOMOC ON)
 else()
   set(QT_MIN_VERSION "4.6.0")
@@ -87,10 +95,10 @@ endif()
 
 # Build Release by default
 IF (NOT CMAKE_BUILD_TYPE)
-    SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+    SET(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 ENDIF ()
 
-option(USE_LOCAL_LIBGIT2 "Use libgit2 compiled in ${CMAKE_CURRENT_SOURCE_DIR}/libgit2" OFF)
+option(USE_LOCAL_LIBGIT2 "Use libgit2 compiled in ${CMAKE_CURRENT_SOURCE_DIR}/libgit2" ON)
 option(LIBGIT2_TESTS     "Build libgit2 tests" OFF)
 
 if(USE_LOCAL_LIBGIT2)

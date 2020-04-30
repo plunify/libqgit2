@@ -9,6 +9,7 @@
 
 #include <bitset>
 
+#include "qgitglobal.h"
 #include "qgitcommit.h"
 #include "qgitrepository.h"
 #include "qgitrevwalk.h"
@@ -27,7 +28,8 @@ public:
 
 private slots:
 
-    void initTestCase() {}
+    void initTestCase();
+    void cleanupTestCase();
 
     void create();
     void open();
@@ -43,6 +45,15 @@ TestRevision::TestRevision() : repo(0)
 {
 }
 
+void TestRevision::initTestCase()
+{
+    initLibQGit2();
+}
+
+void TestRevision::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestRevision::create()
 {

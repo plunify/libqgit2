@@ -20,6 +20,7 @@
 
 #include "TestHelpers.h"
 
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include "qgitremote.h"
 
@@ -34,6 +35,8 @@ public:
     {}
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
     void testRemoteUrlChanging();
     void testLookingUpRevision();
     void testCreateBranch();
@@ -44,6 +47,16 @@ private:
     const QString branchName;
 };
 
+
+void TestRepository::initTestCase()
+{
+    initLibQGit2();
+}
+
+void TestRepository::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestRepository::testRemoteUrlChanging()
 {
@@ -71,8 +84,8 @@ void TestRepository::testCreateBranch()
     repo.open(testdir);
 
     OId head = repo.head().target();
-    QCOMPARE(repo.createBranch(branchName).target(), head);
-    QCOMPARE(repo.lookupShorthandRef(branchName).target(), head);
+    QCOMPARE(repo.createBranch(branchName).target().format(), head.format());
+    QCOMPARE(repo.lookupShorthandRef(branchName).target().format(), head.format());
 }
 
 void TestRepository::testDeleteBranch()

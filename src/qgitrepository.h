@@ -516,6 +516,34 @@ namespace LibQGit2
             Diff diffTrees(const Tree &oldTree, const Tree &newTree) const;
 
             /**
+             * @brief Create a diff between a tree and the working directory.
+             *
+             * This emulates git diff <tree> by diffing the tree to the index
+             * and the index to the working directory and blending the results
+             * into a single diff that includes staged deleted, etc.
+             *
+             * @param oldTree A git_tree object to diff from
+             * @return The Diff between the provided tree and the working
+             * directory.
+             */
+            Diff diffTreeToWorkDir(const Tree &oldTree) const;
+
+            /**
+             * @brief Create a diff between a tree and the working directory
+             * using index data to account for staged deletes, tracked files,
+             * etc.
+             *
+             * This emulates git diff <tree> by diffing the tree to the index
+             * and the index to the working directory and blending the results
+             * into a single diff that includes staged deleted, etc.
+             *
+             * @param oldTree A git_tree object to diff from
+             * @return The Diff between the provided tree and the working
+             * directory.
+             */
+            Diff diffTreeToWorkDirWithIndex(const Tree &oldTree) const;
+
+            /**
              * Finds a merge base between two commits.
              * @param one The first Commit.
              * @param two The second Commit.

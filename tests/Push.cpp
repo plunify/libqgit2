@@ -20,6 +20,7 @@
 
 #include "TestHelpers.h"
 
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include "qgitconfig.h"
 #include "qgitremote.h"
@@ -40,6 +41,7 @@ public:
 
 private slots:
     void initTestCase();
+    void cleanupTestCase();
     void pushToNewTargetBranch();
 
 private:
@@ -53,7 +55,13 @@ private:
 
 void TestPush::initTestCase()
 {
+    initLibQGit2();
     initBareLocalRepo();
+}
+
+void TestPush::cleanupTestCase()
+{
+    shutdownLibQGit2();
 }
 
 void TestPush::initBareLocalRepo()

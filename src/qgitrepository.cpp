@@ -424,6 +424,20 @@ Diff Repository::diffTrees(const Tree &oldTree, const Tree &newTree) const
     return Diff(diff);
 }
 
+Diff Repository::diffTreeToWorkDir(const Tree &oldTree) const
+{
+    git_diff *diff = NULL;
+    qGitThrow(git_diff_tree_to_workdir(&diff, SAFE_DATA, oldTree.data(), NULL));
+    return Diff(diff);
+}
+
+Diff Repository::diffTreeToWorkDirWithIndex(const Tree &oldTree) const
+{
+    git_diff *diff = NULL;
+    qGitThrow(git_diff_tree_to_workdir_with_index(&diff, SAFE_DATA, oldTree.data(), NULL));
+    return Diff(diff);
+}
+
 Commit Repository::mergeBase(const Commit &one, const Commit &two) const
 {
     OId out;

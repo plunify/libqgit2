@@ -99,6 +99,11 @@ void Index::updateAll()
     qGitThrow(git_index_update_all(data(), NULL, NULL, NULL));
 }
 
+void Index::addAll()
+{
+    qGitThrow(git_index_add_all(data(), NULL, 0, NULL, NULL));
+}
+
 IndexEntry Index::getByIndex(int n) const
 {
     return IndexEntry(git_index_get_byindex(data(), n));

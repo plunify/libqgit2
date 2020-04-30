@@ -19,6 +19,7 @@
 */
 
 #include "TestHelpers.h"
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include "qgittree.h"
 #include "qgitdiff.h"
@@ -32,9 +33,21 @@ class TestDiff : public QObject
     Q_OBJECT
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
     void testDiffFileList();
 };
 
+void TestDiff::initTestCase()
+{
+    initLibQGit2();
+}
+
+void TestDiff::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestDiff::testDiffFileList()
 {

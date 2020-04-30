@@ -1,6 +1,5 @@
 /******************************************************************************
  * This file is part of the libqgit2 library
- * Copyright (C) 2011 Laszlo Papp <djszapi@archlinux.us>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,33 +16,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef LIBQGIT2_LIB_CONFIG_H
-#define LIBQGIT2_LIB_CONFIG_H
+#include "qgitdiffstats.h"
+#include "qgitdifffile.h"
 
-#include <QtCore/QtGlobal>
+#include <QString>
 
-/** @defgroup LibQGit2 The Qt Library for Git revision control featuring libgit2
- * Qt wrapper classes for the LibGit2 library.
- */
+namespace LibQGit2 {
 
-#ifndef LIBQGIT2_EXPORT
-#if defined(MAKE_LIBQGIT2_LIB)
-#define LIBQGIT2_EXPORT Q_DECL_EXPORT
-#else
-#define LIBQGIT2_EXPORT Q_DECL_IMPORT
-#endif
-#endif
+DiffStats::DiffStats(git_diff_stats *d) : m_diff_stats(d)
+{
+}
 
-#ifndef LIBQGIT2_EXPORT_DEPRECATED
-#define LIBQGIT2_EXPORT_DEPRECATED Q_DECL_DEPRECATED LIBQGIT2_EXPORT
-#endif
+DiffStats::~DiffStats()
+{
+    git_diff_stats_free(m_diff_stats);
+}
 
-#ifndef LIBQGIT2_FUNC_NAME
-#if (defined(_WIN32)) && !defined(__CYGWIN__)
-#define LIBQGIT2_FUNC_NAME __FUNCTION__
-#else
-#define LIBQGIT2_FUNC_NAME __func__
-#endif
-#endif
+size_t DiffStats::insertions()
+{
+    return git_diff_stats_insertions(m_diff_stats);
+}
 
-#endif // LIBQGIT2_LIB_CONFIG_H
+size_t DiffStats::deletions()
+{
+    return git_diff_stats_deletions(m_diff_stats);
+}
+
+size_t DiffStats::filesChanged()
+{
+    return git_diff_stats_files_changed(m_diff_stats);
+}
+
+QString DiffStats::format(Format format, int width)
+{
+    git_buf b = GIT_BUF_INIT_CONST(NULL, 0);
+    git_diff_stats_to_buf(&b, m_diff_stats, git_diff_stats_format_t(format), width);
+    QString ret(b.ptr);
+    git_buf_free(&b);
+    return ret;
+}
+
+}

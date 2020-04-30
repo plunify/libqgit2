@@ -27,6 +27,7 @@
 #include <iostream>
 #include <bitset>
 
+#include "qgitglobal.h"
 #include "qgitcommit.h"
 #include "qgitrepository.h"
 #include "qgitcredentials.h"
@@ -51,6 +52,9 @@ public slots:
     }
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
     void remoteBranches();
     void remoteAdd();
     void remoteAddExisiting();
@@ -67,6 +71,15 @@ private:
     void fetch(const QString& branch, const QString dirname);
 };
 
+void TestFetch::initTestCase()
+{
+    initLibQGit2();
+}
+
+void TestFetch::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestFetch::remoteAdd()
 {

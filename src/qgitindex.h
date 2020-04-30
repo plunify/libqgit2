@@ -163,6 +163,12 @@ namespace LibQGit2
             void updateAll();
 
             /**
+             * Add or update index entries matching files in the working directory.
+             * @throws LibQGit2::Exception
+             */
+            void addAll();
+
+            /**
              * Get a pointer to one of the entries in the index
              *
              * This entry can be modified, and the changes will be written

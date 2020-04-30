@@ -80,7 +80,8 @@ bool libgit2HasSSH() {
 
 
 void TestBase::init() {
-    testdir = VALUE_TO_QSTR(TEST_DIR) + "/" + QFileInfo(QTest::currentAppName()).fileName() + "/" + QTest::currentTestFunction();
+    //testdir = VALUE_TO_QSTR(TEST_DIR) + "/" + QFileInfo(QTest::currentAppName()).fileName() + "/" + QTest::currentTestFunction();
+    testdir = VALUE_TO_QSTR(TEST_DIR) + "/" + QFileInfo(QCoreApplication::applicationFilePath()).fileName() + "/" + QTest::currentTestFunction();
     QVERIFY(removeDir(testdir));
 }
 

@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include "qgitstatuslist.h"
 #include "qgitstatusentry.h"
@@ -13,19 +14,30 @@
 #include "qgitstatus.h"
 #include "qgitstatusoptions.h"
 
+using namespace LibQGit2;
 
 class TestStatusOptions : public QObject
 {
     Q_OBJECT
 
-public:
-    TestStatusOptions();
+private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
+    void testStatusOptions();
 };
 
+void TestStatusOptions::initTestCase()
+{
+    initLibQGit2();
+}
 
-using namespace LibQGit2;
+void TestStatusOptions::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
-TestStatusOptions::TestStatusOptions()
+void TestStatusOptions::testStatusOptions()
 {
     Repository repo;
     repo.open(ExistingRepository);
@@ -115,7 +127,6 @@ TestStatusOptions::TestStatusOptions()
         std::cout << entry.indexToWorkdir().newFile().path().toStdString() << std::endl;
     }
 }
-
 
 QTEST_MAIN(TestStatusOptions)
 

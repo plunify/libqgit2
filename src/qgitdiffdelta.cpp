@@ -27,11 +27,11 @@ DiffDelta::DiffDelta(const git_diff_delta *d) : m_diff_delta(d)
 
 DiffDelta::Type DiffDelta::type() const
 {
-    DiffDelta::Type ret = Unknown;
+    Type type = Unknown;
     if (m_diff_delta != NULL) {
-        ret = DiffDelta::Type(m_diff_delta->status);
+        type = Type(m_diff_delta->status);
     }
-    return ret;
+    return type;
 }
 
 DiffFile DiffDelta::oldFile() const
@@ -42,6 +42,15 @@ DiffFile DiffDelta::oldFile() const
 DiffFile DiffDelta::newFile() const
 {
     return DiffFile(m_diff_delta != NULL ? &m_diff_delta->new_file : NULL);
+}
+
+DiffDelta::Flags DiffDelta::flags() const
+{
+    Flags flags = Flags(0);
+    if (m_diff_delta != NULL) {
+        flags = Flags(m_diff_delta->flags);
+    }
+    return flags;
 }
 
 }

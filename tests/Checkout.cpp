@@ -21,6 +21,7 @@
 */
 #include "TestHelpers.h"
 
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include "qgitcommit.h"
 #include "qgitdiffdelta.h"
@@ -35,6 +36,9 @@ class TestCheckout : public TestBase
     Q_OBJECT
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
     void checkoutRemote();
     void checkoutRemoteKde();
     void checkoutCommitAsTree();
@@ -45,6 +49,15 @@ private:
     void fetch(const QString& branch, const QString& repoPath, const QString& remote);
 };
 
+void TestCheckout::initTestCase()
+{
+    initLibQGit2();
+}
+
+void TestCheckout::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestCheckout::fetch(const QString& branch, const QString& repoPath, const QString& remote = "origin")
 {

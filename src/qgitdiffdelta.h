@@ -66,6 +66,14 @@ public:
      */
     DiffFile newFile() const;
 
+    enum Flags {
+        Binary = GIT_DIFF_FLAG_BINARY,
+        NotBinary = GIT_DIFF_FLAG_NOT_BINARY,
+        ValidId = GIT_DIFF_FLAG_VALID_ID,
+    };
+
+    Flags flags() const;
+
 private:
     const git_diff_delta *m_diff_delta;
 };

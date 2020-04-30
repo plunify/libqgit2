@@ -18,6 +18,7 @@
 
 #include "qgitdiff.h"
 #include "qgitdiffdelta.h"
+#include "qgitdiffstats.h"
 
 namespace LibQGit2
 {
@@ -43,6 +44,32 @@ DiffDelta Diff::delta(size_t index) const
         delta = git_diff_get_delta(d.data(), index);
     }
     return DiffDelta(delta);
+}
+
+DiffStats Diff::stats() const
+{
+    int ret = 0;
+    git_diff_stats *stats = 0;
+    if (!d.isNull()) {
+         ret = git_diff_get_stats(&stats, d.data());
+    }
+    // TODO: handle error
+    return DiffStats(stats);
+}
+
+QString Diff::patch(size_t index) const
+{
+    git_patch *patch = NULL;
+    int error = git_patch_from_diff(&patch, d.data(), index);
+    QString ret;
+    if(!error){
+        git_buf b = GIT_BUF_INIT_CONST(NULL, 0);
+        git_patch_to_buf(&b, patch);
+        ret = b.ptr;
+        git_buf_free(&b);
+        git_patch_free(patch);
+    }
+    return ret;
 }
 
 }

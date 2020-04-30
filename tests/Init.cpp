@@ -1,6 +1,7 @@
 
 #include "TestHelpers.h"
 
+#include "qgitglobal.h"
 #include "qgitrepository.h"
 #include <QDir>
 
@@ -19,6 +20,7 @@ public:
 private slots:
 
     void initTestCase();
+    void cleanupTestCase();
     void init();
     void initBare();
 
@@ -39,6 +41,7 @@ TestInit::TestInit() :
 
 void TestInit::initTestCase()
 {
+    initLibQGit2();
 
     QVERIFY(!repo);
 
@@ -48,6 +51,10 @@ void TestInit::initTestCase()
     QVERIFY(repo);
 }
 
+void TestInit::cleanupTestCase()
+{
+    shutdownLibQGit2();
+}
 
 void TestInit::init()
 {

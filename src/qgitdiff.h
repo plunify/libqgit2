@@ -29,6 +29,7 @@ namespace LibQGit2
 {
 
 class DiffDelta;
+class DiffStats;
 
 /**
  * This class represents a diff.
@@ -53,6 +54,13 @@ public:
      * @return The \c DiffDelta member.
      */
     DiffDelta delta(size_t index) const;
+
+    /**
+     * @brief Get the \c DiffStats for this \c Diff.
+     */
+    DiffStats stats() const;
+
+    QString patch(size_t index) const;
 
 public:
     QSharedPointer<git_diff> d;
